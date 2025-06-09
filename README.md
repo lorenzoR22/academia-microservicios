@@ -44,14 +44,12 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Java + Spring Boot 3**
+- **Spring Boot**
 - **Spring Cloud (Config, Eureka, Gateway)**
-- **PostgreSQL** para todas las bases de datos
+- **PostgreSQL** para las bases de datos
 - **FeignClient** para comunicación síncrona entre servicios
 - **Docker & Docker Compose** para contenerización
 - **Keycloak** (OAuth2) para autenticación/autorización
-- **JUnit + Mockito** para testing
-- (❌ Aún no incluye Swagger ni mensajería asincrónica como Kafka)
 
 ---
 
