@@ -34,7 +34,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ### ⚙️ `config-server`
 - Centraliza la configuración de todos los servicios.
-- Lee propiedades desde un repositorio privado/publico en GitHub.
+- Lee propiedades desde un repositorio privado en GitHub.
 
 ### 🧭 `eureka-server`
 - Descubrimiento de microservicios.
