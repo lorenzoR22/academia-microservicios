@@ -56,6 +56,12 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 - **API de Mercado Pago** para gestión de pagos
 ---
 
+
+## ⚒️ Stack Tecnológico
+
+`Java` • `Spring Boot` • `Spring Security` • `Spring Cloud` • `Feign` • `Keycloak` • `PostgreSQL` • `Docker` • `Jakarta Validation` • `MapStruct` • `Lombok` • `Mercado Pago API`
+
+
 ## 📂 Estructura del Proyecto
 
 ```text
