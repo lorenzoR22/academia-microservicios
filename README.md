@@ -53,5 +53,5 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ## 📂 Estructura del Proyecto
 
-<img width="544" alt="diagrama microservicos" src="https://github.com/user-attachments/assets/8ad9dbdf-c4f8-4b37-a0c6-1b069ff070ff" />
+<img width="790" alt="diagrama microservicos" src="https://github.com/user-attachments/assets/8ad9dbdf-c4f8-4b37-a0c6-1b069ff070ff" />
 
