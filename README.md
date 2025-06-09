@@ -1,7 +1,11 @@
-# 🎓 Academia - Arquitectura de Microservicios  
+# 🎓 Academia - Arquitectura de Microservicios 
 ## 📖 Descripción General
 
 Este proyecto representa una **plataforma educativa** donde se gestionan cursos, lecciones, inscripciones y pagos. Cada microservicio tiene su propia responsabilidad y se comunica con los demás mediante HTTP usando FeignClient. El sistema está protegido con Keycloak, lo cual permite autenticación y autorización robusta basada en roles.
+
+## ⚒️ Stack Tecnológico
+
+`Java` • `Spring Boot` • `Spring Security` • `Spring Cloud` • `Feign` • `Keycloak` • `PostgreSQL` • `Docker` • `Jakarta Validation` • `MapStruct` • `Lombok` • `Mercado Pago API`
 
 ---
 
@@ -41,10 +45,6 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 - Facilita la reutilización y mantenimiento, evitando duplicación y asegurando consistencia en la comunicación entre servicios.
 
 ---
-
-## ⚒️ Stack Tecnológico
-
-`Java` • `Spring Boot` • `Spring Security` • `Spring Cloud` • `Feign` • `Keycloak` • `PostgreSQL` • `Docker` • `Jakarta Validation` • `MapStruct` • `Lombok` • `Mercado Pago API`
 
 ## 📂 Estructura del Proyecto
 
