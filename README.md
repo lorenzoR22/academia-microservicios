@@ -5,7 +5,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ## ⚒️ Stack Tecnológico
 
-`Java` • `Spring Boot` • `Spring Security` • `Spring Cloud` • `Feign` • `Keycloak` • `PostgreSQL` • `Docker` • `Mercado Pago API` • `Jakarta Validation` • `MapStruct` • `Lombok`
+`Java` • `Spring Boot` • `Spring Security` • `Spring Cloud` • `Feign` • `Keycloak` • `PostgreSQL` • `Docker` • `Mercado Pago API` • `MapStruct` • `Jakarta Validation` • `Lombok`
 
 ---
 
