@@ -52,7 +52,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ## 🚀 Funcionalidades Planeadas
 
-Estas son algunas funcionalidades que se implementarán próximamente para mejorar la arquitectura y la experiencia de usuario:
+Estas son algunas funcionalidades en las que voy a estar trabajando para seguir mejorando el proyecto:
 
 - [ ] 👤 **Servicio de Usuario-Perfil**  
   Crear un microservicio separado para gestionar información personalizada del perfil de usuario, incluyendo:
