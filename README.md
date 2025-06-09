@@ -1,9 +1,4 @@
 # 🎓 Academia - Arquitectura de Microservicios  
-
-Bienvenido al repositorio del sistema backend para la gestión de una academia online, desarrollado con arquitectura de microservicios utilizando Spring Boot y tecnologías modernas para garantizar escalabilidad, resiliencia y mantenibilidad.
-
----
-
 ## 📖 Descripción General
 
 Este proyecto representa una **plataforma educativa** donde se gestionan cursos, lecciones, inscripciones y pagos. Cada microservicio tiene su propia responsabilidad y se comunica con los demás mediante HTTP usando FeignClient. El sistema está protegido con Keycloak, lo cual permite autenticación y autorización robusta basada en roles.
