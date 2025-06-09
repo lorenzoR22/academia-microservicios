@@ -31,6 +31,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ### 💰 `pagos-service`
 - Registra y valida pagos de inscripciones.
+- Integracion **API de Mercado Pago** para la gestión de pagos
 
 ### ⚙️ `config-server`
 - Centraliza la configuración de todos los servicios.
@@ -40,6 +41,8 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 - Descubrimiento de microservicios.
 - Permite que los servicios se encuentren entre sí por nombre lógico.
 
+### `common-dtos`
+- Centralizacion de DTOs.
 ---
 
 ## 🛠️ Tecnologías Utilizadas
@@ -50,7 +53,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 - **FeignClient** para comunicación síncrona entre servicios
 - **Docker & Docker Compose** para contenerización
 - **Keycloak** (OAuth2) para autenticación/autorización
-
+- **API de Mercado Pago** para gestión de pagos
 ---
 
 ## 📂 Estructura del Proyecto
