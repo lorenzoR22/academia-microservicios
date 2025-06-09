@@ -41,7 +41,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 - Descubrimiento de microservicios.
 - Permite que los servicios se encuentren entre sí por nombre lógico.
 
-### `common-dtos`
+###    `common-dtos`
 - Centraliza los Data Transfer Objects (DTOs) compartidos entre los microservicios.
 - Facilita la reutilización y mantenimiento, evitando duplicación y asegurando consistencia en la comunicación entre servicios.
 
