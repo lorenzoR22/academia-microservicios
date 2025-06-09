@@ -23,7 +23,7 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 ### 🎓 `cursos-service`
 - Maneja el ABM de cursos y lecciones.
-- Solo los administradores pueden crear/modificar lecciones.
+- Solo los administradores pueden crear/eliminar/modificar cursos y lecciones.
 
 ### 📝 `inscripciones-service`
 - Gestiona las inscripciones de usuarios a cursos.
