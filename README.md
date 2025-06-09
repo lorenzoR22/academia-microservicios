@@ -1,4 +1,4 @@
-# 🎓 Arquitectura de Microservicios - Plataforma de Academia
+# 🎓 Academia - Arquitectura de Microservicios  
 
 Bienvenido al repositorio del sistema backend para la gestión de una academia online, desarrollado con arquitectura de microservicios utilizando Spring Boot y tecnologías modernas para garantizar escalabilidad, resiliencia y mantenibilidad.
 
