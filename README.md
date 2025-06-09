@@ -1,0 +1,70 @@
+# 🎓 Arquitectura de Microservicios - Plataforma de Academia
+
+Bienvenido al repositorio del sistema backend para la gestión de una academia online, desarrollado con arquitectura de microservicios utilizando Spring Boot y tecnologías modernas para garantizar escalabilidad, resiliencia y mantenibilidad.
+
+---
+
+## 📖 Descripción General
+
+Este proyecto representa una **plataforma educativa** donde se gestionan cursos, lecciones, inscripciones y pagos. Cada microservicio tiene su propia responsabilidad y se comunica con los demás mediante HTTP usando FeignClient. El sistema está protegido con Keycloak, lo cual permite autenticación y autorización robusta basada en roles.
+
+---
+
+## 🧩 Componentes Principales
+
+### 🔐 Auth con Keycloak
+- Keycloak gestiona el login, registro y emisión de tokens OAuth2.
+- Todos los microservicios requieren autenticación.
+
+### 🌐 API Gateway
+- Enrutador principal de las peticiones.
+- Aplica filtros, maneja la autorización y redirige al microservicio correspondiente.
+- Conectado a Eureka y protegido por Keycloak.
+
+### 🎓 `cursos-service`
+- Maneja el ABM de cursos y lecciones.
+- Solo los administradores pueden crear/modificar lecciones.
+
+### 📝 `inscripciones-service`
+- Gestiona las inscripciones de usuarios a cursos.
+- Valida cursos y pagos.
+
+### 💰 `pagos-service`
+- Registra y valida pagos de inscripciones.
+
+### ⚙️ `config-server`
+- Centraliza la configuración de todos los servicios.
+- Lee propiedades desde un repositorio privado/publico en GitHub.
+
+### 🧭 `eureka-server`
+- Descubrimiento de microservicios.
+- Permite que los servicios se encuentren entre sí por nombre lógico.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Java + Spring Boot 3**
+- **Spring Cloud (Config, Eureka, Gateway)**
+- **PostgreSQL** para todas las bases de datos
+- **FeignClient** para comunicación síncrona entre servicios
+- **Docker & Docker Compose** para contenerización
+- **Keycloak** (OAuth2) para autenticación/autorización
+- **JUnit + Mockito** para testing
+- (❌ Aún no incluye Swagger ni mensajería asincrónica como Kafka)
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+academia-microservicios/
+├── api-gateway/
+├── config-server/
+├── eureka-server/
+├── cursos-service/
+├── inscripciones-service/
+├── pagos-service/
+├── common-dtos/
+└── docker-compose.yml
+
