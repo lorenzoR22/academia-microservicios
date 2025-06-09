@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  ### postgres db para curso
+  db-curso:
+    container_name: db-curso
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
+    ports:
+      - "5440:5432"
+    volumes:
+      - curso_data:/var/lib/postgresql/data
+
+  ### postgres db para inscripciones
+  db-inscripciones:
+    container_name: db-inscripciones
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - inscripciones_data:/var/lib/postgresql/data
+
+  ### postgres db para pagos
+  db-pagos:
+    container_name: db-pagos
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
+    ports:
+      - "5434:5432"
+    volumes:
+      - pagos_data:/var/lib/postgresql/data
+
+  ### postgres db para usuarios
+  db-usuarios:
+    container_name: db-usuarios
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: ${SPRING_DATASOURCE_DB}
+    ports:
+      - "5435:5432"
+    volumes:
+      - usuarios_data:/var/lib/postgresql/data
+
+  ## postgres database para keycloak
+  db-keycloak:
+    container_name: db-keycloak
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: db_keycloak
+    ports:
+      - "5436:5432"
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+
+
+  ###servicio de keycloak(va a depender de la db de keycloak)
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:21.0.2
+    command: [ "start-dev" ]
+    ports:
+      - "8181:8181"
+    depends_on:
+      - db-keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db-keycloak
+      DB_DATABASE: db_keycloak
+      DB_PORT: 5436
+      DB_USER: ${SPRING_DATASOURCE_USERNAME}
+      DB_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      KC_HTTP_PORT: 8181
+      KC_SPI_EVENTS_LISTENER_PROVIDERS: keycloak-event-listener
+      KC_SPI_EVENTS_LISTENER_REGISTRO_LISTENER_ENABLED: true
+
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./keycloak-event-listener/target/keycloak-event-listener-1.0.0-SNAPSHOT.jar:/opt/keycloak/providers/keycloak-event-listener-1.0.0-SNAPSHOT.jar
+
+volumes:
+  curso_data:
+  inscripciones_data:
+  pagos_data:
+  usuarios_data:
+  keycloak_db_data:
+  keycloak_data:
