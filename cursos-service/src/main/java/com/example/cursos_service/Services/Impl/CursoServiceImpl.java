@@ -4,7 +4,7 @@ package com.example.cursos_service.Services.Impl;
 import com.example.dtos.curso.CursoRequestDTO;
 import com.example.dtos.curso.CursoResponseDTO;
 import com.example.cursos_service.Entities.Curso;
-import com.example.cursos_service.Exceptions.NotFoundException;
+import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Mappers.CursoMapper;
 import com.example.cursos_service.Repositories.CursoRepository;
 import com.example.cursos_service.Services.CursoService;
@@ -18,9 +18,9 @@ public class CursoServiceImpl implements CursoService {
     private final CursoRepository cursoRepository;
     private final CursoMapper cursoMapper;
 
-    public CursoResponseDTO getCurso(Long id) throws NotFoundException {
+    public CursoResponseDTO getCurso(Long id) throws CursoNotFoundException {
         Curso curso=cursoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Curso no encontrado con id: " + id));
+                .orElseThrow(() -> new CursoNotFoundException(id));
         return cursoMapper.toDTO(curso);
     }
 
@@ -30,9 +30,9 @@ public class CursoServiceImpl implements CursoService {
         return cursoMapper.toDTO(savedCurso);
     }
 
-    public CursoResponseDTO updateCurso(Long id,CursoRequestDTO request) throws NotFoundException {
+    public CursoResponseDTO updateCurso(Long id,CursoRequestDTO request) throws CursoNotFoundException {
         Curso curso=cursoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Curso no encontrado con id: " + id));
+                .orElseThrow(() -> new CursoNotFoundException(id));
 
         curso.setTitulo(request.getTitulo());
         curso.setDescripcion(request.getDescripcion());
@@ -46,9 +46,9 @@ public class CursoServiceImpl implements CursoService {
         return cursoMapper.toDTO(curso);
     }
 
-    public CursoResponseDTO updateParcialCurso(Long id, CursoRequestDTO request) throws NotFoundException {
+    public CursoResponseDTO updateParcialCurso(Long id, CursoRequestDTO request) throws CursoNotFoundException {
         Curso curso = cursoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Curso no encontrado con id: " + id));
+                .orElseThrow(() -> new CursoNotFoundException(id));
 
         if (request.getTitulo() != null) {
             curso.setTitulo(request.getTitulo());

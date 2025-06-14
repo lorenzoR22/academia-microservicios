@@ -9,15 +9,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse>HandleNotFoundException(NotFoundException e){
-        ErrorResponse error=new ErrorResponse("NOT_FOUND",e.getMessage());
+    @ExceptionHandler(CursoNotFoundException.class)
+    public ResponseEntity<ErrorResponse>HandleNotFoundException(CursoNotFoundException e){
+        ErrorResponse error=new ErrorResponse("CURSO_NOT_FOUND",e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NotInscriptionException.class)
-    public ResponseEntity<ErrorResponse>HandleNotInscriptionException(NotInscriptionException e){
-        ErrorResponse error=new ErrorResponse("NOT_INSCRIPTION", e.getMessage());
+    @ExceptionHandler(NotFoundLeccionException.class)
+    public ResponseEntity<ErrorResponse>HandleNotFoundException(NotFoundLeccionException e){
+        ErrorResponse error=new ErrorResponse("LECCION_NOT_FOUND",e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WithoutInscripcionException.class)
+    public ResponseEntity<ErrorResponse>HandleNotInscriptionException(WithoutInscripcionException e){
+        ErrorResponse error=new ErrorResponse("WITHOUT_INSCRIPCION", e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 

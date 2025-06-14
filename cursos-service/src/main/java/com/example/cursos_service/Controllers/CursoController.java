@@ -3,7 +3,7 @@ package com.example.cursos_service.Controllers;
 
 import com.example.dtos.curso.CursoRequestDTO;
 import com.example.dtos.curso.CursoResponseDTO;
-import com.example.cursos_service.Exceptions.NotFoundException;
+import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Services.CursoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class CursoController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CursoResponseDTO getCurso(@PathVariable("id") Long id) throws NotFoundException {
+    public CursoResponseDTO getCurso(@PathVariable("id") Long id) throws CursoNotFoundException {
         return cursoService.getCurso(id);
     }
 
@@ -34,14 +34,14 @@ public class CursoController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public CursoResponseDTO updateCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws NotFoundException {
+    public CursoResponseDTO updateCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws CursoNotFoundException {
         return cursoService.updateCurso(id,request);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public CursoResponseDTO updateParcialCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws NotFoundException {
+    public CursoResponseDTO updateParcialCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws CursoNotFoundException {
         return cursoService.updateParcialCurso(id,request);
     }
     @DeleteMapping("/{id}")

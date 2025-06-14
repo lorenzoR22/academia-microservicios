@@ -4,7 +4,7 @@ package com.example.inscripciones_service.Controllers;
 import com.example.dtos.inscripcion.InscripcionRequestDTO;
 import com.example.dtos.inscripcion.InscripcionResponseDTO;
 import com.example.dtos.inscripcion.InscripcionUpdateRequestDTO;
-import com.example.inscripciones_service.Exceptions.NotFoundException;
+import com.example.inscripciones_service.Exceptions.InscripcionNotFoundException;
 import com.example.inscripciones_service.Services.InscripcionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class InscripcionController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public InscripcionResponseDTO getInscripcion(@PathVariable Long id) throws NotFoundException {
+    public InscripcionResponseDTO getInscripcion(@PathVariable Long id) throws InscripcionNotFoundException {
         return inscripcionService.getInscripcion(id);
     }
 
@@ -41,13 +41,13 @@ public class InscripcionController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public InscripcionResponseDTO updateInscripcion(@PathVariable Long id,@Valid @RequestBody InscripcionUpdateRequestDTO request) throws NotFoundException {
+    public InscripcionResponseDTO updateInscripcion(@PathVariable Long id,@Valid @RequestBody InscripcionUpdateRequestDTO request) throws InscripcionNotFoundException {
         return inscripcionService.updateInscripcion(id,request);
     }
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public InscripcionResponseDTO updateParcialInscripcion(@PathVariable Long id,@Valid @RequestBody InscripcionUpdateRequestDTO request) throws NotFoundException {
+    public InscripcionResponseDTO updateParcialInscripcion(@PathVariable Long id,@Valid @RequestBody InscripcionUpdateRequestDTO request) throws InscripcionNotFoundException {
         return inscripcionService.updateParcialInscripcion(id,request);
     }
 }

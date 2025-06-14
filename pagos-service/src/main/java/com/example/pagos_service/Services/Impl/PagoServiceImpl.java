@@ -7,7 +7,7 @@ import com.example.dtos.pago.PagoResponseDTO;
 import com.example.pagos_service.Clients.CursoClient;
 import com.example.pagos_service.Clients.InscripcionClient;
 import com.example.pagos_service.Entities.Pago;
-import com.example.pagos_service.Exceptions.NotFoundException;
+import com.example.pagos_service.Exceptions.PagoNotFoundException;
 import com.example.pagos_service.Mappers.PagoMapper;
 import com.example.pagos_service.Repositories.PagoRepository;
 import com.example.pagos_service.Services.PagoService;
@@ -39,9 +39,9 @@ public class PagoServiceImpl implements PagoService {
     @Value("${mercadopago.accessToken}")
     private String mercadoPagoAccessToken;
 
-    public PagoResponseDTO getPago(Long id) throws NotFoundException {
+    public PagoResponseDTO getPago(Long id) throws PagoNotFoundException {
         Pago pago=pagoRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("No se encontro el pago con id:"+id));
+                .orElseThrow(()->new PagoNotFoundException(id));
         return pagoMapper.toDTO(pago);
     }
 

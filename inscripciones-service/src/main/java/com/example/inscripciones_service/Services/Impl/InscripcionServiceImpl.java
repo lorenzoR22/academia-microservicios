@@ -4,7 +4,7 @@ import com.example.dtos.inscripcion.InscripcionRequestDTO;
 import com.example.dtos.inscripcion.InscripcionResponseDTO;
 import com.example.dtos.inscripcion.InscripcionUpdateRequestDTO;
 import com.example.inscripciones_service.Entities.Inscripcion;
-import com.example.inscripciones_service.Exceptions.NotFoundException;
+import com.example.inscripciones_service.Exceptions.InscripcionNotFoundException;
 import com.example.inscripciones_service.Mappers.InscripcionMapper;
 import com.example.inscripciones_service.Repositories.InscripcionRepository;
 import com.example.inscripciones_service.Services.InscripcionService;
@@ -19,9 +19,9 @@ public class InscripcionServiceImpl implements InscripcionService {
     private final InscripcionRepository inscripcionRepository;
     private final InscripcionMapper inscripcionMapper;
 
-    public InscripcionResponseDTO getInscripcion(Long id) throws NotFoundException {
+    public InscripcionResponseDTO getInscripcion(Long id) throws InscripcionNotFoundException {
         Inscripcion inscripcion=inscripcionRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("No se encontro la inscripcion con el id:"+id));
+                .orElseThrow(()->new InscripcionNotFoundException(id));
 
         return inscripcionMapper.toDTO(inscripcion);
     }
@@ -37,9 +37,9 @@ public class InscripcionServiceImpl implements InscripcionService {
         return inscripcionMapper.toDTO(saved);
     }
 
-    public InscripcionResponseDTO updateInscripcion(Long id, InscripcionUpdateRequestDTO request) throws NotFoundException {
+    public InscripcionResponseDTO updateInscripcion(Long id, InscripcionUpdateRequestDTO request) throws InscripcionNotFoundException {
         Inscripcion inscripcion=inscripcionRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("No se encontro la inscripcion con el id:"+id));
+                .orElseThrow(()->new InscripcionNotFoundException(id));
 
         inscripcion.setProgreso(request.getProgreso());
         inscripcion.setEstado(request.getEstado());
@@ -49,9 +49,9 @@ public class InscripcionServiceImpl implements InscripcionService {
         return inscripcionMapper.toDTO(inscripcion);
     }
 
-    public InscripcionResponseDTO updateParcialInscripcion(Long id, InscripcionUpdateRequestDTO request) throws NotFoundException {
+    public InscripcionResponseDTO updateParcialInscripcion(Long id, InscripcionUpdateRequestDTO request) throws InscripcionNotFoundException {
         Inscripcion inscripcion = inscripcionRepository.findById(id)
-                .orElseThrow(()->new NotFoundException("No se encontro la inscripcion con el id:"+id));
+                .orElseThrow(()->new InscripcionNotFoundException(id));
 
         if (request.getProgreso() != null) {
             inscripcion.setProgreso(request.getProgreso());
