@@ -8,6 +8,7 @@ import com.example.pagos_service.Clients.CursoClient;
 import com.example.pagos_service.Clients.InscripcionClient;
 import com.example.pagos_service.Entities.Pago;
 import com.example.pagos_service.Exceptions.PagoNotFoundException;
+import com.example.pagos_service.Exceptions.ServicioNoDisponibleException;
 import com.example.pagos_service.Mappers.PagoMapper;
 import com.example.pagos_service.Repositories.PagoRepository;
 import com.example.pagos_service.Services.PagoService;
@@ -19,6 +20,7 @@ import com.mercadopago.client.preapproval.PreapprovalCreateRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preapproval.Preapproval;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,7 @@ public class PagoServiceImpl implements PagoService {
         return pagoMapper.toDTO(pagoSaved);
     }
 
+    @CircuitBreaker(name = "cursos-service", fallbackMethod = "fallbackGetLinkCompra")
     public String getLinkCompra(String id_user,String email,Long id_curso) throws MPException, MPApiException {
 
         MercadoPagoConfig.setAccessToken(mercadoPagoAccessToken);
@@ -80,7 +83,12 @@ public class PagoServiceImpl implements PagoService {
         return preapproval.getInitPoint();
     }
 
+    public String fallbackGetLinkCompra(String id_user,String email,Long id_curso,Throwable ex){
+        throw new ServicioNoDisponibleException("cursos-service",ex);
+    }
+
     @Transactional
+    @CircuitBreaker(name = "inscripciones-service", fallbackMethod = "fallbackChequearPago")
     public ResponseEntity<String> chequearPago(String preapprovalId,String topic ) throws MPApiException, MPException {
         if ("subscription_preapproval".equals(topic)) {
             PreapprovalClient client = new PreapprovalClient();
@@ -106,4 +114,7 @@ public class PagoServiceImpl implements PagoService {
         return ResponseEntity.ok("finalizado correctamente.");
     }
 
+    public String fallbackChequearPago(String preapprovalId,String topic ,Throwable ex){
+        throw new ServicioNoDisponibleException("inscripciones-service",ex);
+    }
 }

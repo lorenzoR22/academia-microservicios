@@ -6,7 +6,7 @@ import com.example.dtos.pago.PagoRequestDTO;
 import com.example.dtos.pago.PagoResponseDTO;
 import com.example.pagos_service.Clients.CursoClient;
 import com.example.pagos_service.Clients.InscripcionClient;
-import com.example.pagos_service.Exceptions.NotFoundException;
+import com.example.pagos_service.Exceptions.PagoNotFoundException;
 import com.example.pagos_service.Services.PagoService;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
@@ -24,12 +24,10 @@ import org.springframework.web.bind.annotation.*;
 public class PagoController {
 
     private final PagoService pagoService;
-    private final CursoClient cursoClient;
-    private final InscripcionClient inscripcionClient;
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PagoResponseDTO getPago(@PathVariable Long id) throws NotFoundException {
+    public PagoResponseDTO getPago(@PathVariable Long id) throws PagoNotFoundException {
         return pagoService.getPago(id);
     }
 
@@ -39,18 +37,6 @@ public class PagoController {
                                     @AuthenticationPrincipal Jwt token){
         String usuarioId=token.getClaim("sub");
         return pagoService.savePago(usuarioId,dto);
-    }
-
-    @GetMapping("/curso/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public CursoResponseDTO getcurso(@PathVariable Long id){
-        return cursoClient.getCurso(id);
-    }
-
-    @GetMapping("/inscripcion/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public InscripcionResponseDTO get(@PathVariable Long id){
-        return inscripcionClient.get(id);
     }
 
     @PostMapping("/comprar/{id_curso}")

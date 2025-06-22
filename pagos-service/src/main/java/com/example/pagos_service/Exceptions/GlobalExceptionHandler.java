@@ -27,4 +27,9 @@ public class GlobalExceptionHandler {
         ErrorResponse error=new ErrorResponse("INTERNAL_SERVER_ERROR",ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(ServicioNoDisponibleException.class)
+    public ResponseEntity<ErrorResponse>HandleServicioNoDisponibleException(ServicioNoDisponibleException ex) {
+        ErrorResponse error=new ErrorResponse("SERVICE_UNAVAILABLE",ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.SERVICE_UNAVAILABLE);
+    }
 }

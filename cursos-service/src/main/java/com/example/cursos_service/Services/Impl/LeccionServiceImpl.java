@@ -2,6 +2,7 @@ package com.example.cursos_service.Services.Impl;
 
 
 import com.example.cursos_service.Exceptions.NotFoundLeccionException;
+import com.example.cursos_service.Exceptions.ServicioNoDisponibleException;
 import com.example.dtos.leccion.LeccionRequestDTO;
 import com.example.dtos.leccion.LeccionResponseDTO;
 import com.example.cursos_service.Clients.InscripcionClient;
@@ -13,8 +14,10 @@ import com.example.cursos_service.Mappers.LeccionMapper;
 import com.example.cursos_service.Repositories.CursoRepository;
 import com.example.cursos_service.Repositories.LeccionRepository;
 import com.example.cursos_service.Services.LeccionService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +28,21 @@ public class LeccionServiceImpl implements LeccionService {
     private final CursoRepository cursoRepository;
     private final InscripcionClient inscripcionClient;
 
+    @CircuitBreaker(name = "inscripciones-service", fallbackMethod = "fallbackGetLeccion")
     public LeccionResponseDTO getLeccion(Long id,String id_user) throws CursoNotFoundException, WithoutInscripcionException {
         Leccion leccion=leccionRepository.findById(id)
                 .orElseThrow(() -> new CursoNotFoundException(id));
 
-        if(!inscripcionClient.existsByUserIdAndCursoId(leccion.getCurso().getId(),id_user)){
-            throw new WithoutInscripcionException(leccion.getCurso().getTitulo(),id_user);
+        Boolean inscripto = inscripcionClient.existsByUserIdAndCursoId(leccion.getCurso().getId(), id_user);
+        if (!inscripto) {
+            throw new WithoutInscripcionException(leccion.getCurso().getTitulo(), id_user);
         }
+
         return leccionMapper.toDTO(leccion);
+    }
+    public LeccionResponseDTO fallbackGetLeccion(Long id, String id_user, Throwable ex)  {
+        // Manejo cuando inscripciones falla completamente (por timeout, etc.)
+        throw new ServicioNoDisponibleException("inscripciones-service",ex);
     }
 
     public LeccionResponseDTO saveLeccion(Long cursoId, LeccionRequestDTO dto) throws CursoNotFoundException {
@@ -81,7 +91,5 @@ public class LeccionServiceImpl implements LeccionService {
     public void deleteLeccion(Long id){
         leccionRepository.deleteById(id);
     }
-
-
 
 }

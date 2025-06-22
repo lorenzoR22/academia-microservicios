@@ -5,9 +5,11 @@ import com.example.dtos.curso.CursoRequestDTO;
 import com.example.dtos.curso.CursoResponseDTO;
 import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Services.CursoService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +27,14 @@ public class CursoController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public CursoResponseDTO saveCurso(@Valid @RequestBody CursoRequestDTO curso){
-        return cursoService.saveCurso(curso);
+    @CircuitBreaker(name = "cursos-service",fallbackMethod = "saveCursoFallBack")
+    public ResponseEntity<CursoResponseDTO> saveCurso(@Valid @RequestBody CursoRequestDTO curso){
+        return ResponseEntity.status(HttpStatus.CREATED).body(cursoService.saveCurso(curso));
+    }
+
+    private ResponseEntity<CursoResponseDTO>saveCursoFallBack(CursoResponseDTO curso,Throwable throwable){
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 
     @PutMapping("/{id}")
