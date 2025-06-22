@@ -50,23 +50,5 @@ Este proyecto representa una **plataforma educativa** donde se gestionan cursos,
 
 <img width="790" alt="diagrama microservicos" src="https://github.com/user-attachments/assets/8ad9dbdf-c4f8-4b37-a0c6-1b069ff070ff" />
 
-## 🚀 Funcionalidades Planeadas
 
-Estas son algunas funcionalidades en las que voy a estar trabajando para seguir mejorando el proyecto:
-
-- [ ] 👤 **Servicio de Usuario-Perfil**  
-  Crear un microservicio separado para gestionar información personalizada del perfil de usuario, incluyendo:
-  - 🎂 Fecha de cumpleaños
-  - 🖼️ Avatar
-  - ✍️ Biografía (bio)
-
-- [ ] 📢 **Integración con Event Listener**  
-  Al momento de registrar un nuevo usuario, se emitirá un evento desde keycloak que será escuchado por el microservicio de perfil para crear automáticamente una entidad `UsuarioPerfil`.
-
-- [ ] 🧪 **Testing Automatizado**  
-  - Unit tests con JUnit y Mockito
-  - Tests de integración entre microservicios
-  - Tests de los endpoints (posiblemente con Testcontainers + Postman/Newman o RestAssured)
-
----
 
