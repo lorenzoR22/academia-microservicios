@@ -79,10 +79,6 @@ public class PagoServiceImpl implements PagoService {
             return preapproval.getInitPoint();
     }
 
-    public String fallbackGetLinkCompra(String id_user,String email,Long id_curso,Throwable ex){
-        throw new ServicioNoDisponibleException("mercado-pago",ex);
-    }
-
     @Transactional
     public void  chequearPago(String preapprovalId,String topic ) throws MPApiException, MPException {
         if ("subscription_preapproval".equals(topic)) {
