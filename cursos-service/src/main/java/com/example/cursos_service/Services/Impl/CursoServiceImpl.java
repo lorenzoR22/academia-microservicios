@@ -4,10 +4,10 @@ package com.example.cursos_service.Services.Impl;
 import com.example.dtos.curso.CursoRequestDTO;
 import com.example.dtos.curso.CursoResponseDTO;
 import com.example.cursos_service.Entities.Curso;
-import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Mappers.CursoMapper;
 import com.example.cursos_service.Repositories.CursoRepository;
 import com.example.cursos_service.Services.CursoService;
+import com.example.exceptions.cursos.CursoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CursoServiceImpl implements CursoService {
+
     private final CursoRepository cursoRepository;
     private final CursoMapper cursoMapper;
 
-    public CursoResponseDTO getCurso(Long id) throws CursoNotFoundException {
+    public CursoResponseDTO getCurso(Long id){
         Curso curso=cursoRepository.findById(id)
                 .orElseThrow(() -> new CursoNotFoundException(id));
         return cursoMapper.toDTO(curso);
@@ -30,7 +31,7 @@ public class CursoServiceImpl implements CursoService {
         return cursoMapper.toDTO(savedCurso);
     }
 
-    public CursoResponseDTO updateCurso(Long id,CursoRequestDTO request) throws CursoNotFoundException {
+    public CursoResponseDTO updateCurso(Long id,CursoRequestDTO request)  {
         Curso curso=cursoRepository.findById(id)
                 .orElseThrow(() -> new CursoNotFoundException(id));
 
@@ -46,7 +47,7 @@ public class CursoServiceImpl implements CursoService {
         return cursoMapper.toDTO(curso);
     }
 
-    public CursoResponseDTO updateParcialCurso(Long id, CursoRequestDTO request) throws CursoNotFoundException {
+    public CursoResponseDTO updateParcialCurso(Long id, CursoRequestDTO request){
         Curso curso = cursoRepository.findById(id)
                 .orElseThrow(() -> new CursoNotFoundException(id));
 

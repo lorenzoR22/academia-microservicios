@@ -3,7 +3,6 @@ package com.example.cursos_service.Controllers;
 
 import com.example.dtos.curso.CursoRequestDTO;
 import com.example.dtos.curso.CursoResponseDTO;
-import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Services.CursoService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
@@ -22,7 +21,7 @@ public class CursoController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CursoResponseDTO getCurso(@PathVariable("id") Long id) throws CursoNotFoundException {
+    public CursoResponseDTO getCurso(@PathVariable("id") Long id) {
         return cursoService.getCurso(id);
     }
 
@@ -40,14 +39,14 @@ public class CursoController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public CursoResponseDTO updateCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws CursoNotFoundException {
+    public CursoResponseDTO updateCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) {
         return cursoService.updateCurso(id,request);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public CursoResponseDTO updateParcialCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request) throws CursoNotFoundException {
+    public CursoResponseDTO updateParcialCurso(@PathVariable Long id,@Valid @RequestBody CursoRequestDTO request)  {
         return cursoService.updateParcialCurso(id,request);
     }
     @DeleteMapping("/{id}")

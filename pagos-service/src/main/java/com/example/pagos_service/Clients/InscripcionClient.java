@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public interface InscripcionClient {
 
     @PostMapping("/api/inscripciones")
-    void saveInscripcion(@RequestBody InscripcionRequestDTO dto, @RequestParam String id_user);
+    void saveInscripcion(@RequestBody InscripcionRequestDTO dto,@RequestParam String email,@RequestParam String titulo_curso);
 
     @GetMapping("/api/inscripciones/{id}")
     InscripcionResponseDTO get(@PathVariable Long id);

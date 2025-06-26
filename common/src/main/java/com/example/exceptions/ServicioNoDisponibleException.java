@@ -1,4 +1,4 @@
-package com.example.pagos_service.Exceptions;
+package com.example.exceptions;
 
 public class ServicioNoDisponibleException extends RuntimeException{
     public ServicioNoDisponibleException(String servicio, Throwable causa) {

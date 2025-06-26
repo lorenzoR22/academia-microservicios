@@ -1,9 +1,8 @@
 package com.example.cursos_service.Controllers;
 
-import com.example.cursos_service.Exceptions.NotFoundLeccionException;
+import com.example.cursos_service.Exceptions.LeccionNotFoundException;
 import com.example.dtos.leccion.LeccionRequestDTO;
 import com.example.dtos.leccion.LeccionResponseDTO;
-import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Exceptions.WithoutInscripcionException;
 import com.example.cursos_service.Services.Impl.LeccionServiceImpl;
 import jakarta.validation.Valid;
@@ -23,7 +22,7 @@ public class LeccionController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LeccionResponseDTO getLeccion(@PathVariable("id")Long id,
-                                         @AuthenticationPrincipal Jwt token) throws WithoutInscripcionException, CursoNotFoundException {
+                                         @AuthenticationPrincipal Jwt token) throws WithoutInscripcionException, LeccionNotFoundException {
         String id_user=token.getClaim("sub");
         return leccionService.getLeccion(id,id_user);
     }
@@ -31,21 +30,21 @@ public class LeccionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public LeccionResponseDTO saveLeccion(@PathVariable Long cursoId,@Valid @RequestBody LeccionRequestDTO leccion) throws CursoNotFoundException {
+    public LeccionResponseDTO saveLeccion(@PathVariable Long cursoId,@Valid @RequestBody LeccionRequestDTO leccion){
         return leccionService.saveLeccion(cursoId,leccion);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public LeccionResponseDTO updateLeccion(@PathVariable Long id,@Valid @RequestBody LeccionRequestDTO request) throws NotFoundLeccionException {
+    public LeccionResponseDTO updateLeccion(@PathVariable Long id,@Valid @RequestBody LeccionRequestDTO request) throws LeccionNotFoundException {
         return leccionService.updateLeccion(id,request);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
-    public LeccionResponseDTO updateParcialLeccion(@PathVariable Long id,@Valid @RequestBody LeccionRequestDTO request) throws NotFoundLeccionException {
+    public LeccionResponseDTO updateParcialLeccion(@PathVariable Long id,@Valid @RequestBody LeccionRequestDTO request) throws LeccionNotFoundException {
         return leccionService.updateParcialLeccion(id,request);
     }
 

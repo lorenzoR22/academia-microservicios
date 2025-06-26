@@ -33,9 +33,8 @@ public class InscripcionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('SERVICIO')")
-    public InscripcionResponseDTO saveInscripcion(@Valid @RequestBody InscripcionRequestDTO dto,
-                                                  String id_user){
-        return inscripcionService.saveInscripcion(id_user,dto);
+    public InscripcionResponseDTO saveInscripcion(@Valid @RequestBody InscripcionRequestDTO dto,String email,String titulo_curso){
+        return inscripcionService.saveInscripcion(dto,email,titulo_curso);
     }
 
     @PutMapping("/{id}")

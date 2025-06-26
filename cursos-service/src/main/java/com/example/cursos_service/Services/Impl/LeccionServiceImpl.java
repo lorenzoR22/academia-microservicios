@@ -1,20 +1,17 @@
 package com.example.cursos_service.Services.Impl;
 
 
-import com.example.cursos_service.Exceptions.NotFoundLeccionException;
-import com.example.cursos_service.Exceptions.ServicioNoDisponibleException;
+import com.example.cursos_service.Exceptions.LeccionNotFoundException;
 import com.example.dtos.leccion.LeccionRequestDTO;
 import com.example.dtos.leccion.LeccionResponseDTO;
-import com.example.cursos_service.Clients.InscripcionClient;
 import com.example.cursos_service.Entities.Curso;
 import com.example.cursos_service.Entities.Leccion;
-import com.example.cursos_service.Exceptions.CursoNotFoundException;
 import com.example.cursos_service.Exceptions.WithoutInscripcionException;
 import com.example.cursos_service.Mappers.LeccionMapper;
 import com.example.cursos_service.Repositories.CursoRepository;
 import com.example.cursos_service.Repositories.LeccionRepository;
 import com.example.cursos_service.Services.LeccionService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import com.example.exceptions.cursos.CursoNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,23 +23,19 @@ public class LeccionServiceImpl implements LeccionService {
     private final LeccionRepository leccionRepository;
     private final LeccionMapper leccionMapper;
     private final CursoRepository cursoRepository;
-    private final InscripcionClient inscripcionClient;
+    private final InscripcionService inscripcionService;
 
-    @CircuitBreaker(name = "inscripciones-service", fallbackMethod = "fallbackGetLeccion")
-    public LeccionResponseDTO getLeccion(Long id,String id_user) throws CursoNotFoundException, WithoutInscripcionException {
+
+    public LeccionResponseDTO getLeccion(Long id,String id_user) throws WithoutInscripcionException, LeccionNotFoundException {
         Leccion leccion=leccionRepository.findById(id)
-                .orElseThrow(() -> new CursoNotFoundException(id));
+                .orElseThrow(() -> new LeccionNotFoundException(id));
 
-        Boolean inscripto = inscripcionClient.existsByUserIdAndCursoId(leccion.getCurso().getId(), id_user);
+        Boolean inscripto = inscripcionService.existsInscripcion(id_user,id);
         if (!inscripto) {
             throw new WithoutInscripcionException(leccion.getCurso().getTitulo(), id_user);
         }
 
         return leccionMapper.toDTO(leccion);
-    }
-    public LeccionResponseDTO fallbackGetLeccion(Long id, String id_user, Throwable ex)  {
-        // Manejo cuando inscripciones falla completamente (por timeout, etc.)
-        throw new ServicioNoDisponibleException("inscripciones-service",ex);
     }
 
     public LeccionResponseDTO saveLeccion(Long cursoId, LeccionRequestDTO dto) throws CursoNotFoundException {
@@ -54,9 +47,9 @@ public class LeccionServiceImpl implements LeccionService {
         return leccionMapper.toDTO(newLeccion);
     }
 
-    public LeccionResponseDTO updateLeccion(Long leccionId,LeccionRequestDTO request) throws NotFoundLeccionException {
+    public LeccionResponseDTO updateLeccion(Long leccionId,LeccionRequestDTO request) throws LeccionNotFoundException {
         Leccion leccion=leccionRepository.findById(leccionId)
-                .orElseThrow(() -> new NotFoundLeccionException(leccionId));
+                .orElseThrow(() -> new LeccionNotFoundException(leccionId));
 
         leccion.setTitulo(request.getTitulo());
         leccion.setContenido(request.getContenido());
@@ -67,9 +60,9 @@ public class LeccionServiceImpl implements LeccionService {
         return leccionMapper.toDTO(leccion);
     }
 
-    public LeccionResponseDTO updateParcialLeccion(Long leccionId, LeccionRequestDTO request) throws NotFoundLeccionException {
+    public LeccionResponseDTO updateParcialLeccion(Long leccionId, LeccionRequestDTO request) throws LeccionNotFoundException {
         Leccion leccion = leccionRepository.findById(leccionId)
-                .orElseThrow(() -> new NotFoundLeccionException(leccionId));
+                .orElseThrow(() -> new LeccionNotFoundException(leccionId));
 
         if (request.getTitulo() != null) {
             leccion.setTitulo(request.getTitulo());

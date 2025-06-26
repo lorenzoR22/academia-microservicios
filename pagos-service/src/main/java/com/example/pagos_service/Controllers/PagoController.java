@@ -1,11 +1,8 @@
 package com.example.pagos_service.Controllers;
 
-import com.example.dtos.curso.CursoResponseDTO;
-import com.example.dtos.inscripcion.InscripcionResponseDTO;
 import com.example.dtos.pago.PagoRequestDTO;
 import com.example.dtos.pago.PagoResponseDTO;
-import com.example.pagos_service.Clients.CursoClient;
-import com.example.pagos_service.Clients.InscripcionClient;
+import com.example.exceptions.cursos.CursoNotFoundException;
 import com.example.pagos_service.Exceptions.PagoNotFoundException;
 import com.example.pagos_service.Services.PagoService;
 import com.mercadopago.exceptions.MPApiException;
@@ -13,7 +10,6 @@ import com.mercadopago.exceptions.MPException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -42,15 +38,15 @@ public class PagoController {
     @PostMapping("/comprar/{id_curso}")
     @ResponseStatus(HttpStatus.OK)
     public String getLinkPago(@AuthenticationPrincipal Jwt token,
-                              @PathVariable Long id_curso) throws MPException, MPApiException {
+                              @PathVariable Long id_curso) throws MPException, MPApiException, CursoNotFoundException {
         String email=token.getClaim("email");
         String id_user=token.getClaim("sub");
         return pagoService.getLinkCompra(id_user,email,id_curso);
     }
 
     @PostMapping("/chequear-pago")
-    public ResponseEntity<String>chequearPago(@RequestParam("data.id") String preapprovalId,
+    public void chequearPago(@RequestParam("data.id") String preapprovalId,
                                               @RequestParam("type") String topic) throws MPException, MPApiException {
-        return pagoService.chequearPago(preapprovalId,topic);
+        pagoService.chequearPago(preapprovalId, topic);
     }
 }

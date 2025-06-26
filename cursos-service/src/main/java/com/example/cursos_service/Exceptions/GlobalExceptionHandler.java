@@ -1,6 +1,8 @@
 package com.example.cursos_service.Exceptions;
 
 import com.example.ErrorResponse;
+import com.example.exceptions.cursos.CursoNotFoundException;
+import com.example.exceptions.ServicioNoDisponibleException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,8 +17,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NotFoundLeccionException.class)
-    public ResponseEntity<ErrorResponse>HandleNotFoundException(NotFoundLeccionException e){
+    @ExceptionHandler(LeccionNotFoundException.class)
+    public ResponseEntity<ErrorResponse>HandleNotFoundException(LeccionNotFoundException e){
         ErrorResponse error=new ErrorResponse("LECCION_NOT_FOUND",e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }

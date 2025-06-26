@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InscripcionRequestDTO {
     @NotNull
+    private String userId;
+    @NotNull
     private Long cursoId;
 }
